@@ -1,69 +1,33 @@
-// Генерация уникального идентификатора для каждого пользователя
-const sessionId = generateUUID();
+// Скрипт для генерации цветов с использованием изображений
+document.addEventListener('DOMContentLoaded', () => {
+    const flowerContainer = document.querySelector('.falling-flowers');
 
-function generateUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
+    // Функция для создания цветка
+    const createFlower = () => {
+        const flower = document.createElement('div');
+        flower.classList.add('flower');
 
-// Пример завершения игры и отправки результатов на сервер
-function finishGame(incorrectAnswers) {
-  fetch('/recordGameResults', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      sessionId: sessionId, // Уникальная сессия пользователя
-      incorrectAnswers: incorrectAnswers // Неправильные ответы
-    }),
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Результаты игры отправлены:', data);
-    fetchOverallStatistics();
-  })
-  .catch(error => console.error('Ошибка отправки результатов:', error));
-}
+        // Выбираем случайное изображение цветка
+        const flowerImages = [
+            'flower1.png', // Укажите пути к вашим изображениям
+            'flower2.png',
+            'flower3.png',
+            'flower4.png'
+        ];
+        const randomFlower = flowerImages[Math.floor(Math.random() * flowerImages.length)];
+        flower.style.backgroundImage = `url('${randomFlower}')`;
 
-// Получение статистики с сервера и отрисовка графика
-function fetchOverallStatistics() {
-  fetch('/getOverallStats')
-    .then(response => response.json())
-    .then(data => {
-      const labels = Object.keys(data).map(key => `Вопрос ${parseInt(key) + 1}`);
-      const incorrectData = Object.values(data);
+        // Устанавливаем случайное положение
+        flower.style.setProperty('--flower-position', Math.random().toString());
 
-      renderChart(labels, incorrectData);
-    })
-    .catch(error => console.error('Ошибка при получении статистики:', error));
-}
+        // Удаляем цветок после завершения анимации
+        flower.addEventListener('animationend', () => {
+            flower.remove();
+        });
 
-function renderChart(labels, data) {
-  const ctx = document.getElementById('myChart').getContext('2d');
-  const chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Количество неправильных ответов',
-        data: data,
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-}
+        flowerContainer.appendChild(flower);
+    };
 
-// Начинаем с запроса общей статистики при загрузке страницы
-fetchOverallStatistics();
+    // Создаем цветы каждые 500 мс
+    setInterval(createFlower, 500);
+});

@@ -1,13 +1,68 @@
+/* Основной стиль страницы */
 body {
-  font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Отключаем прокрутку, чтобы анимация смотрелась аккуратно */
+    color: #333;
 }
 
-.chart-container {
-  max-width: 500px;
-  margin: 20px auto;
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    margin: 100px auto;
 }
 
-#myChart {
-  width: 100%;
-  height: 300px;
+h1 {
+    color: #ff4081;
+}
+
+p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.image {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+/* Стиль для падающих цветов */
+.falling-flowers {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Отключаем взаимодействие с элементами */
+    overflow: hidden;
+}
+
+.flower {
+    position: absolute;
+    top: -10%;
+    width: 30px; /* Размер цветка */
+    height: 30px;
+    background-size: cover;
+    animation: fall 10s linear infinite;
+    opacity: 0.8;
+}
+
+
+/* Анимация падения цветов */
+@keyframes fall {
+    0% {
+        transform: translateY(-100px);
+        left: calc(100% * var(--flower-position));
+    }
+    100% {
+        transform: translateY(110vh);
+        left: calc(100% * var(--flower-position));
+    }
 }
