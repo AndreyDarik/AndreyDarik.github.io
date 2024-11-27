@@ -1,3 +1,101 @@
+// Создаём базовый стиль через JS
+document.body.style.margin = "0";
+document.body.style.padding = "0";
+document.body.style.height = "100vh";
+document.body.style.display = "flex";
+document.body.style.justifyContent = "center";
+document.body.style.alignItems = "center";
+document.body.style.overflow = "hidden";
+document.body.style.background = "#000";
+document.body.style.color = "#fff";
+
+// Фон с градиентной анимацией
+const background = document.createElement("div");
+background.style.position = "fixed";
+background.style.top = "0";
+background.style.left = "0";
+background.style.width = "100%";
+background.style.height = "100%";
+background.style.zIndex = "-1";
+background.style.background = "linear-gradient(270deg, #ff5f6d, #ffc371, #ff5f6d)";
+background.style.backgroundSize = "600% 600%";
+background.style.animation = "gradientAnimation 8s ease infinite";
+document.body.appendChild(background);
+
+const style = document.createElement("style");
+style.innerHTML = `
+  @keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+`;
+document.head.appendChild(style);
+
+// Контейнер викторины
+const quizContainer = document.createElement("div");
+quizContainer.style.textAlign = "center";
+quizContainer.style.background = "rgba(0, 0, 0, 0.8)";
+quizContainer.style.padding = "30px";
+quizContainer.style.borderRadius = "20px";
+quizContainer.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.3)";
+quizContainer.style.maxWidth = "600px";
+quizContainer.style.width = "90%";
+quizContainer.style.animation = "fadeIn 1s ease-in-out";
+document.body.appendChild(quizContainer);
+
+// Плавное появление контейнера
+const fadeInStyle = document.createElement("style");
+fadeInStyle.innerHTML = `
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+document.head.appendChild(fadeInStyle);
+
+// Таймер
+const timer = document.createElement("div");
+timer.id = "timer";
+timer.style.fontSize = "1.5em";
+timer.style.color = "#ff4747";
+timer.style.marginBottom = "20px";
+timer.style.textShadow = "0 0 10px rgba(255, 71, 71, 0.8)";
+quizContainer.appendChild(timer);
+
+// Вопрос
+const question = document.createElement("div");
+question.className = "question";
+question.style.fontSize = "1.8em";
+question.style.marginBottom = "30px";
+question.style.color = "#fff";
+question.style.textShadow = "0 0 15px rgba(255, 255, 255, 0.7)";
+quizContainer.appendChild(question);
+
+// Контейнер для кнопок
+const optionsContainer = document.createElement("div");
+optionsContainer.className = "options";
+optionsContainer.style.display = "flex";
+optionsContainer.style.flexDirection = "column";
+optionsContainer.style.gap = "15px";
+quizContainer.appendChild(optionsContainer);
+
+// Итоговый результат
+const resultContainer = document.createElement("div");
+resultContainer.id = "result";
+resultContainer.style.fontSize = "1.8em";
+resultContainer.style.color = "#00FF7F";
+resultContainer.style.textShadow = "0 0 15px rgba(0, 255, 127, 0.7)";
+resultContainer.style.marginTop = "20px";
+resultContainer.style.display = "none";
+quizContainer.appendChild(resultContainer);
+
 const quizData = [
     {
         question: "Как называется наука, изучающая взаимодействие организмов с окружающей средой?",
@@ -86,20 +184,33 @@ let score = 0;
 let timerInterval;
 let timeLeft = 60;
 
-const quizContainer = document.getElementById("quiz");
-const resultContainer = document.getElementById("result");
-const timerContainer = document.getElementById("timer");
-
 function loadQuestion() {
     const currentQuestion = quizData[currentQuestionIndex];
-    quizContainer.querySelector(".question").textContent = currentQuestion.question;
-    const optionsContainer = quizContainer.querySelector(".options");
+    question.textContent = currentQuestion.question;
     optionsContainer.innerHTML = "";
 
     currentQuestion.options.forEach((option, index) => {
         const button = document.createElement("button");
         button.textContent = `${String.fromCharCode(65 + index)}: ${option}`;
-        button.className = "option";
+        button.style.background = "linear-gradient(45deg, #007BFF, #00FF7F)";
+        button.style.color = "white";
+        button.style.fontSize = "1.2em";
+        button.style.fontWeight = "bold";
+        button.style.padding = "15px";
+        button.style.border = "none";
+        button.style.borderRadius = "10px";
+        button.style.cursor = "pointer";
+        button.style.transition = "transform 0.3s, box-shadow 0.3s";
+        button.style.boxShadow = "0 4px 15px rgba(0, 0, 0, 0.2)";
+        button.style.textTransform = "uppercase";
+        button.onmouseover = () => {
+            button.style.transform = "scale(1.05)";
+            button.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.4)";
+        };
+        button.onmouseout = () => {
+            button.style.transform = "scale(1)";
+            button.style.boxShadow = "0 4px 15px rgba(0, 0, 0, 0.2)";
+        };
         button.onclick = () => handleAnswer(index);
         optionsContainer.appendChild(button);
     });
@@ -109,7 +220,7 @@ function loadQuestion() {
 }
 
 function handleAnswer(selectedOption) {
-    clearInterval(timerInterval); // Останавливаем таймер
+    clearInterval(timerInterval);
     const currentQuestion = quizData[currentQuestionIndex];
     if (selectedOption === currentQuestion.correct) {
         score++;
@@ -126,17 +237,17 @@ function startTimer() {
     timeLeft = 60;
     timerInterval = setInterval(() => {
         timeLeft--;
-        timerContainer.textContent = `Время: ${timeLeft} сек`;
+        timer.textContent = `Время: ${timeLeft} сек`;
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            handleAnswer(-1); // Если время вышло, переходим к следующему вопросу
+            handleAnswer(-1);
         }
     }, 1000);
 }
 
 function resetTimer() {
     clearInterval(timerInterval);
-    timerContainer.textContent = `Время: 60 сек`;
+    timer.textContent = `Время: 60 сек`;
 }
 
 function showResult() {
