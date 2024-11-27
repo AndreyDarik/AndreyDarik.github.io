@@ -237,7 +237,7 @@ function startTimer() {
     timeLeft = 60;
     timerInterval = setInterval(() => {
         timeLeft--;
-        timer.textContent = `Время: ${timeLeft} сек`;
+        timer.textContent = `Время: ${timeLeft} секунд`;
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             handleAnswer(-1);
