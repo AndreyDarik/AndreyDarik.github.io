@@ -112,4 +112,37 @@ body {
 /* Вопрос */
 .question {
     font-size: 1.5em;
-    margin-bottom: 
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* Варианты ответа */
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.option {
+    background: linear-gradient(45deg, #007BFF, #00FF7F);
+    color: white;
+    font-size: 1em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.option:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Результат */
+#result {
+    font-size: 1.5em;
+    color: #00FF7F;
+    text-shadow: 0 0 10px rgba(0, 255, 127, 0.7);
+    margin-top: 20px;
+}
