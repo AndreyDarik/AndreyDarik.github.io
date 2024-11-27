@@ -3,28 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Поздравление с Днем Матери</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Викторина</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Дорогая мама!</h1>
-        <p>Сегодня — особенный день, и я хочу сказать тебе самые теплые слова.</p>
-        <p>Ты — самый важный человек в моей жизни. Спасибо за твою любовь, заботу и поддержку. Ты делаешь наш мир светлее и добрее.</p>
-        <p>С Днем Матери! Я люблю тебя!</p>
-		<p>P.S. совсем забыл про этот праздник, еле успел сделать сайт))</p>
-        <img src="https://source.unsplash.com/600x400/?flowers" alt="Цветы для мамы" class="image">
+    <div id="quiz-container">
+        <div id="quiz">
+            <div class="timer" id="timer">Время: 60 сек</div>
+            <div class="question">Загрузка...</div>
+            <div class="options"></div>
+        </div>
+        <div id="result" style="display: none;"></div>
     </div>
-
-    <!-- Анимация падающих цветов -->
-    <div class="falling-flowers">
-        <!-- Цветы, которые будут падать -->
-        <div class="flower">🌸</div>
-        <div class="flower">🌼</div>
-        <div class="flower">🌺</div>
-        <div class="flower">🌷</div>
-    </div>
-
     <script src="script.js"></script>
 </body>
 </html>
