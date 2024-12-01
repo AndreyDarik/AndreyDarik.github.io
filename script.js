@@ -256,6 +256,18 @@ function showResult() {
     resultContainer.style.display = "block";
     resultContainer.textContent = `Вы ответили правильно на ${score} из ${quizData.length} вопросов!`;
     detailedResults.style.display = "block";
+
+    // Формирование результатов для отображения на странице
+    const detailedResultText = answers
+        .map(
+            (answer, index) =>
+                `Вопрос ${index + 1}:\n` +
+                `Ваш ответ: ${answer.selectedOption}\n` +
+                `Правильный ответ: ${answer.correctOption}\n` +
+                `Результат: ${answer.correct ? "Верно" : "Неверно"}\n\n`
+        )
+        .join("");
+
     detailedResults.innerHTML = answers
         .map(
             (answer, index) =>
@@ -265,6 +277,22 @@ function showResult() {
                 `<b>Результат:</b> ${answer.correct ? "Верно" : "Неверно"}</p>`
         )
         .join("");
+
+    // Генерация файла с результатами
+    const resultText = `Результаты теста\n\nВы ответили правильно на ${score} из ${quizData.length} вопросов.\n\n` + detailedResultText;
+    const blob = new Blob([resultText], { type: "text/plain" });
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = "quiz_results.txt";
+    downloadLink.textContent = "Скачать результаты теста";
+    downloadLink.style.display = "block";
+    downloadLink.style.marginTop = "20px";
+    downloadLink.style.color = "#00FF7F";
+    downloadLink.style.fontSize = "1.2em";
+    downloadLink.style.textDecoration = "none";
+    downloadLink.style.textAlign = "center";
+    document.body.appendChild(downloadLink);
 }
 
+// Вызов функции loadQuestion() остался прежним
 loadQuestion();
