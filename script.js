@@ -303,3 +303,5 @@ function showResult() {
     // Добавляем кнопку на страницу
     document.body.appendChild(downloadLink);
 }
+
+loadQuestion();
