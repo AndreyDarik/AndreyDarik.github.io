@@ -285,14 +285,21 @@ function showResult() {
     downloadLink.href = URL.createObjectURL(blob);
     downloadLink.download = "quiz_results.txt";
     downloadLink.textContent = "Скачать результаты теста";
+
+    // Обновленные стили для видимости на мобильных устройствах
     downloadLink.style.display = "block";
     downloadLink.style.marginTop = "20px";
-    downloadLink.style.color = "#00FF7F";
-    downloadLink.style.fontSize = "1.2em";
-    downloadLink.style.textDecoration = "none";
+    downloadLink.style.padding = "10px 20px";
+    downloadLink.style.background = "linear-gradient(45deg, #007BFF, #00FF7F)";
+    downloadLink.style.color = "#fff";
+    downloadLink.style.fontSize = "1.5em";
+    downloadLink.style.fontWeight = "bold";
     downloadLink.style.textAlign = "center";
+    downloadLink.style.borderRadius = "10px";
+    downloadLink.style.textDecoration = "none";
+    downloadLink.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.3)";
+    downloadLink.style.cursor = "pointer";
+
+    // Добавляем кнопку на страницу
     document.body.appendChild(downloadLink);
 }
-
-// Вызов функции loadQuestion() остался прежним
-loadQuestion();
