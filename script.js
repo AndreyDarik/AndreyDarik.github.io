@@ -94,7 +94,16 @@ resultContainer.style.color = "#00FF7F";
 resultContainer.style.textShadow = "0 0 15px rgba(0, 255, 127, 0.7)";
 resultContainer.style.marginTop = "20px";
 resultContainer.style.display = "none";
-quizContainer.appendChild(resultContainer);
+document.body.appendChild(resultContainer);
+
+// Дополнительный контейнер для подробных результатов
+const detailedResults = document.createElement("div");
+detailedResults.id = "detailedResults";
+detailedResults.style.fontSize = "1.2em";
+detailedResults.style.color = "#fff";
+detailedResults.style.marginTop = "20px";
+detailedResults.style.display = "none";
+resultContainer.appendChild(detailedResults);
 
 const quizData = [
     {
@@ -183,6 +192,7 @@ let currentQuestionIndex = 0;
 let score = 0;
 let timerInterval;
 let timeLeft = 60;
+let answers = [];
 
 function loadQuestion() {
     const currentQuestion = quizData[currentQuestionIndex];
@@ -195,22 +205,8 @@ function loadQuestion() {
         button.style.background = "linear-gradient(45deg, #007BFF, #00FF7F)";
         button.style.color = "white";
         button.style.fontSize = "1.2em";
-        button.style.fontWeight = "bold";
         button.style.padding = "15px";
-        button.style.border = "none";
         button.style.borderRadius = "10px";
-        button.style.cursor = "pointer";
-        button.style.transition = "transform 0.3s, box-shadow 0.3s";
-        button.style.boxShadow = "0 4px 15px rgba(0, 0, 0, 0.2)";
-        button.style.textTransform = "uppercase";
-        button.onmouseover = () => {
-            button.style.transform = "scale(1.05)";
-            button.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.4)";
-        };
-        button.onmouseout = () => {
-            button.style.transform = "scale(1)";
-            button.style.boxShadow = "0 4px 15px rgba(0, 0, 0, 0.2)";
-        };
         button.onclick = () => handleAnswer(index);
         optionsContainer.appendChild(button);
     });
@@ -222,9 +218,14 @@ function loadQuestion() {
 function handleAnswer(selectedOption) {
     clearInterval(timerInterval);
     const currentQuestion = quizData[currentQuestionIndex];
-    if (selectedOption === currentQuestion.correct) {
-        score++;
-    }
+    const correct = selectedOption === currentQuestion.correct;
+    answers.push({
+        question: currentQuestion.question,
+        selectedOption: currentQuestion.options[selectedOption] || "Не ответил",
+        correctOption: currentQuestion.options[currentQuestion.correct],
+        correct
+    });
+    if (correct) score++;
     currentQuestionIndex++;
     if (currentQuestionIndex < quizData.length) {
         loadQuestion();
@@ -254,6 +255,16 @@ function showResult() {
     quizContainer.style.display = "none";
     resultContainer.style.display = "block";
     resultContainer.textContent = `Вы ответили правильно на ${score} из ${quizData.length} вопросов!`;
+    detailedResults.style.display = "block";
+    detailedResults.innerHTML = answers
+        .map(
+            (answer, index) =>
+                `<p><b>Вопрос ${index + 1}:</b> ${answer.question}<br>` +
+                `<b>Ваш ответ:</b> ${answer.selectedOption}<br>` +
+                `<b>Правильный ответ:</b> ${answer.correctOption}<br>` +
+                `<b>Результат:</b> ${answer.correct ? "Верно" : "Неверно"}</p>`
+        )
+        .join("");
 }
 
 loadQuestion();
