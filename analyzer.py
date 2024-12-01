@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-
+from io import StringIO
 
 # Функция для парсинга одного файла
 def parse_file(file_path):
@@ -72,6 +72,25 @@ def generate_statistics(all_questions, all_user_answers, all_correct_answers, al
     correct_stats.columns = ['Incorrect', 'Correct']
 
     return df, correct_stats
+
+
+# Функция для анализа результатов
+def analyze_results(df):
+    analysis = []
+    total_questions = len(df)
+    correct_count = df['Correct'].sum()
+    incorrect_count = total_questions - correct_count
+
+    analysis.append(f"Всего вопросов: {total_questions}")
+    analysis.append(f"Правильных ответов: {correct_count} ({correct_count / total_questions * 100:.1f}%)")
+    analysis.append(f"Неправильных ответов: {incorrect_count} ({incorrect_count / total_questions * 100:.1f}%)")
+
+    # Анализ по сложным вопросам
+    question_errors = df.groupby('Question')['Correct'].apply(lambda x: len(x) - x.sum())
+    hardest_question = question_errors.idxmax()
+    analysis.append(f"Самый сложный вопрос: №{hardest_question} с {question_errors.max()} ошибками.")
+
+    return "\n".join(analysis)
 
 
 # Функция для создания и отображения различных диаграмм с Plotly
@@ -150,6 +169,19 @@ def main():
         # Вывод статистики
         st.subheader("Статистика по верным/неверным ответам:")
         st.dataframe(correct_stats)
+
+        # Анализ результатов
+        st.subheader("Анализ результатов:")
+        analysis = analyze_results(df)
+        st.text(analysis)
+
+        # Кнопка для скачивания анализа
+        st.download_button(
+            label="Скачать анализ",
+            data=analysis,
+            file_name="analysis.txt",
+            mime="text/plain"
+        )
 
         # Построение графиков
         plot_statistics(correct_stats, df)
