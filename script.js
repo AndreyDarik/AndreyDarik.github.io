@@ -204,11 +204,17 @@ function loadQuestion() {
     currentQuestion.options.forEach((option, index) => {
         const button = document.createElement("button");
         button.textContent = `${String.fromCharCode(65 + index)}: ${option}`;
-        button.style.background = "linear-gradient(45deg, #007BFF, #00FF7F)";
+        button.style.background = "linear-gradient(45deg, #6a11cb, #2575fc)";
         button.style.color = "white";
         button.style.fontSize = "1.2em";
         button.style.padding = "15px";
         button.style.borderRadius = "10px";
+        button.style.border = "none";
+        button.style.cursor = "pointer";
+        button.style.transition = "all 0.3s ease";
+        button.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.2)";
+        button.onmouseover = () => button.style.transform = "scale(1.05)";
+        button.onmouseout = () => button.style.transform = "scale(1)";
         button.onclick = () => handleAnswer(index);
         optionsContainer.appendChild(button);
     });
