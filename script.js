@@ -1,4 +1,4 @@
-// Создаём базовый стиль через JS
+// Базовые стили
 document.body.style.margin = "0";
 document.body.style.padding = "0";
 document.body.style.height = "100vh";
@@ -6,10 +6,11 @@ document.body.style.display = "flex";
 document.body.style.justifyContent = "center";
 document.body.style.alignItems = "center";
 document.body.style.overflow = "hidden";
-document.body.style.background = "#000";
+document.body.style.background = "linear-gradient(135deg, #1e3c72, #2a5298)";
+document.body.style.fontFamily = "Arial, sans-serif";
 document.body.style.color = "#fff";
 
-// Фон с градиентной анимацией
+// Фон с анимацией
 const background = document.createElement("div");
 background.style.position = "fixed";
 background.style.top = "0";
@@ -17,17 +18,33 @@ background.style.left = "0";
 background.style.width = "100%";
 background.style.height = "100%";
 background.style.zIndex = "-1";
-background.style.background = "linear-gradient(270deg, #ff5f6d, #ffc371, #ff5f6d)";
-background.style.backgroundSize = "600% 600%";
-background.style.animation = "gradientAnimation 8s ease infinite";
+background.style.background = "radial-gradient(circle, #1e3c72, #2a5298, #1e3c72)";
+background.style.backgroundSize = "300% 300%";
+background.style.animation = "bgAnimation 10s ease infinite";
 document.body.appendChild(background);
 
 const style = document.createElement("style");
 style.innerHTML = `
-  @keyframes gradientAnimation {
+  @keyframes bgAnimation {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes buttonHover {
+    0% { transform: scale(1); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
+    100% { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
   }
 `;
 document.head.appendChild(style);
@@ -35,36 +52,21 @@ document.head.appendChild(style);
 // Контейнер викторины
 const quizContainer = document.createElement("div");
 quizContainer.style.textAlign = "center";
-quizContainer.style.background = "rgba(0, 0, 0, 0.8)";
+quizContainer.style.background = "rgba(255, 255, 255, 0.15)";
 quizContainer.style.padding = "30px";
-quizContainer.style.borderRadius = "20px";
+quizContainer.style.borderRadius = "15px";
 quizContainer.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.3)";
 quizContainer.style.maxWidth = "600px";
 quizContainer.style.width = "90%";
 quizContainer.style.animation = "fadeIn 1s ease-in-out";
+quizContainer.style.backdropFilter = "blur(10px)";
 document.body.appendChild(quizContainer);
-
-// Плавное появление контейнера
-const fadeInStyle = document.createElement("style");
-fadeInStyle.innerHTML = `
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-`;
-document.head.appendChild(fadeInStyle);
 
 // Таймер
 const timer = document.createElement("div");
 timer.id = "timer";
 timer.style.fontSize = "1.5em";
-timer.style.color = "#ff4747";
+timer.style.color = "#FF4747";
 timer.style.marginBottom = "20px";
 timer.style.textShadow = "0 0 10px rgba(255, 71, 71, 0.8)";
 quizContainer.appendChild(timer);
@@ -75,7 +77,7 @@ question.className = "question";
 question.style.fontSize = "1.8em";
 question.style.marginBottom = "30px";
 question.style.color = "#fff";
-question.style.textShadow = "0 0 15px rgba(255, 255, 255, 0.7)";
+question.style.textShadow = "0 0 10px rgba(0, 0, 0, 0.5)";
 quizContainer.appendChild(question);
 
 // Контейнер для кнопок
@@ -96,7 +98,7 @@ resultContainer.style.marginTop = "20px";
 resultContainer.style.display = "none";
 document.body.appendChild(resultContainer);
 
-// Дополнительный контейнер для подробных результатов
+// Подробные результаты
 const detailedResults = document.createElement("div");
 detailedResults.id = "detailedResults";
 detailedResults.style.fontSize = "1.2em";
