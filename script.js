@@ -23,19 +23,6 @@ particlesCanvas.style.pointerEvents = "none";
 document.body.appendChild(particlesCanvas);
 
 
-// Фон с анимацией
-const background = document.createElement("div");
-background.style.position = "fixed";
-background.style.top = "0";
-background.style.left = "0";
-background.style.width = "100%";
-background.style.height = "100%";
-background.style.zIndex = "-1";
-background.style.background = "linear-gradient(135deg, rgba(30,60,114,0.8), rgba(42,82,152,0.8))";
-background.style.backdropFilter = "blur(10px)";
-background.style.transition = "background 1s ease-in-out";
-document.body.appendChild(background);
-
 const ctx = particlesCanvas.getContext("2d");
 const particlesArray = [];
 const numParticles = 100;
