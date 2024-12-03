@@ -10,6 +10,19 @@ document.body.style.background = "linear-gradient(135deg, #1e3c72, #2a5298)";
 document.body.style.fontFamily = "Arial, sans-serif";
 document.body.style.color = "#fff";
 
+// Фон с анимацией частиц
+const particlesCanvas = document.createElement("canvas");
+particlesCanvas.id = "particlesCanvas";
+particlesCanvas.style.position = "fixed";
+particlesCanvas.style.top = "0";
+particlesCanvas.style.left = "0";
+particlesCanvas.style.width = "100%";
+particlesCanvas.style.height = "100%";
+particlesCanvas.style.zIndex = "-1";
+particlesCanvas.style.pointerEvents = "none";
+document.body.appendChild(particlesCanvas);
+
+
 // Фон с анимацией
 const background = document.createElement("div");
 background.style.position = "fixed";
@@ -22,6 +35,68 @@ background.style.background = "linear-gradient(135deg, rgba(30,60,114,0.8), rgba
 background.style.backdropFilter = "blur(10px)";
 background.style.transition = "background 1s ease-in-out";
 document.body.appendChild(background);
+
+const ctx = particlesCanvas.getContext("2d");
+const particlesArray = [];
+const numParticles = 100;
+
+// Создание частиц
+class Particle {
+    constructor() {
+        this.x = Math.random() * particlesCanvas.width;
+        this.y = Math.random() * particlesCanvas.height;
+        this.size = Math.random() * 5 + 1;
+        this.speedX = Math.random() * 3 - 1.5;
+        this.speedY = Math.random() * 3 - 1.5;
+        this.color = `rgba(255, 255, 255, ${Math.random()})`;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        // Перемещение за пределы экрана
+        if (this.x > particlesCanvas.width || this.x < 0) this.speedX = -this.speedX;
+        if (this.y > particlesCanvas.height || this.y < 0) this.speedY = -this.speedY;
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
+// Инициализация частиц
+function initParticles() {
+    for (let i = 0; i < numParticles; i++) {
+        particlesArray.push(new Particle());
+    }
+}
+
+// Анимация частиц
+function animateParticles() {
+    ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+    particlesArray.forEach((particle) => {
+        particle.update();
+        particle.draw();
+    });
+    requestAnimationFrame(animateParticles);
+}
+
+// Запуск
+particlesCanvas.width = window.innerWidth;
+particlesCanvas.height = window.innerHeight;
+initParticles();
+animateParticles();
+
+window.addEventListener("resize", () => {
+    particlesCanvas.width = window.innerWidth;
+    particlesCanvas.height = window.innerHeight;
+});
+
+
 
 const style = document.createElement("style");
 style.innerHTML += `
