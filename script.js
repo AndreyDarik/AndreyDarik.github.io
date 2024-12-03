@@ -10,27 +10,87 @@ document.body.style.background = "linear-gradient(135deg, #1e3c72, #2a5298)";
 document.body.style.fontFamily = "Arial, sans-serif";
 document.body.style.color = "#fff";
 
-// Фон с анимацией
-const background = document.createElement("div");
-background.style.position = "fixed";
-background.style.top = "0";
-background.style.left = "0";
-background.style.width = "100%";
-background.style.height = "100%";
-background.style.zIndex = "-1";
-background.style.background = "linear-gradient(135deg, rgba(30,60,114,0.8), rgba(42,82,152,0.8))";
-background.style.backdropFilter = "blur(10px)";
-background.style.transition = "background 1s ease-in-out";
-document.body.appendChild(background);
+// Удаляем предыдущий фон
+document.body.innerHTML = "";
+
+// Создаем canvas
+const canvas = document.createElement("canvas");
+canvas.id = "particleCanvas";
+canvas.style.position = "fixed";
+canvas.style.top = "0";
+canvas.style.left = "0";
+canvas.style.width = "100%";
+canvas.style.height = "100%";
+canvas.style.zIndex = "-1";
+document.body.appendChild(canvas);
+
+// Добавляем JavaScript-анимацию частиц
+const ctx = canvas.getContext("2d");
+let particlesArray = [];
+const numberOfParticles = 100;
+
+class Particle {
+    constructor(x, y, size, speedX, speedY, color) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.color = color;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        // Проверка выхода за границы экрана
+        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
+function initParticles() {
+    particlesArray = [];
+    for (let i = 0; i < numberOfParticles; i++) {
+        const size = Math.random() * 5 + 1;
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const speedX = Math.random() * 2 - 1;
+        const speedY = Math.random() * 2 - 1;
+        const color = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.8)`;
+        particlesArray.push(new Particle(x, y, size, speedX, speedY, color));
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particlesArray.forEach((particle) => {
+        particle.update();
+        particle.draw();
+    });
+    requestAnimationFrame(animate);
+}
+
+// Обработка изменения размера экрана
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initParticles();
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+initParticles();
+animate();
+
 
 const style = document.createElement("style");
 style.innerHTML += `
-  @keyframes complexBgAnimation {
-    0% { background-size: 300% 300%; background-position: 0% 50%; }
-    50% { background-size: 200% 200%; background-position: 100% 50%; }
-    100% { background-size: 300% 300%; background-position: 0% 50%; }
-  }
-
   @keyframes fadeIn {
     from {
       opacity: 0;
