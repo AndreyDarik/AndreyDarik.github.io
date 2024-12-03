@@ -18,17 +18,17 @@ background.style.left = "0";
 background.style.width = "100%";
 background.style.height = "100%";
 background.style.zIndex = "-1";
-background.style.background = "radial-gradient(circle, #1e3c72, #2a5298, #1e3c72)";
-background.style.backgroundSize = "300% 300%";
-background.style.animation = "bgAnimation 10s ease infinite";
+background.style.background = "linear-gradient(135deg, rgba(30,60,114,0.8), rgba(42,82,152,0.8))";
+background.style.backdropFilter = "blur(10px)";
+background.style.transition = "background 1s ease-in-out";
 document.body.appendChild(background);
 
 const style = document.createElement("style");
-style.innerHTML = `
-  @keyframes bgAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+style.innerHTML += `
+  @keyframes complexBgAnimation {
+    0% { background-size: 300% 300%; background-position: 0% 50%; }
+    50% { background-size: 200% 200%; background-position: 100% 50%; }
+    100% { background-size: 300% 300%; background-position: 0% 50%; }
   }
 
   @keyframes fadeIn {
@@ -47,6 +47,7 @@ style.innerHTML = `
     100% { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
   }
 `;
+background.style.animation = "complexBgAnimation 15s infinite";
 document.head.appendChild(style);
 
 // Контейнер викторины
@@ -55,7 +56,11 @@ quizContainer.style.textAlign = "center";
 quizContainer.style.background = "rgba(255, 255, 255, 0.15)";
 quizContainer.style.padding = "30px";
 quizContainer.style.borderRadius = "15px";
-quizContainer.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.3)";
+quizContainer.style.boxShadow = "0 20px 50px rgba(0, 0, 0, 0.5)";
+quizContainer.style.border = "1px solid rgba(255, 255, 255, 0.2)";
+quizContainer.style.transition = "transform 0.3s ease";
+quizContainer.onmouseover = () => (quizContainer.style.transform = "scale(1.02)");
+quizContainer.onmouseout = () => (quizContainer.style.transform = "scale(1)");
 quizContainer.style.maxWidth = "600px";
 quizContainer.style.width = "90%";
 quizContainer.style.animation = "fadeIn 1s ease-in-out";
@@ -77,7 +82,8 @@ question.className = "question";
 question.style.fontSize = "1.8em";
 question.style.marginBottom = "30px";
 question.style.color = "#fff";
-question.style.textShadow = "0 0 10px rgba(0, 0, 0, 0.5)";
+question.style.textShadow = "2px 2px 5px rgba(0, 0, 0, 0.8)";
+question.style.lineHeight = "1.5";
 quizContainer.appendChild(question);
 
 // Контейнер для кнопок
@@ -204,7 +210,7 @@ function loadQuestion() {
     currentQuestion.options.forEach((option, index) => {
         const button = document.createElement("button");
         button.textContent = `${String.fromCharCode(65 + index)}: ${option}`;
-        button.style.background = "linear-gradient(45deg, #6a11cb, #2575fc)";
+        button.style.background = "linear-gradient(45deg, #ff7e5f, #feb47b)";
         button.style.color = "white";
         button.style.fontSize = "1.2em";
         button.style.padding = "15px";
@@ -213,8 +219,14 @@ function loadQuestion() {
         button.style.cursor = "pointer";
         button.style.transition = "all 0.3s ease";
         button.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.2)";
-        button.onmouseover = () => button.style.transform = "scale(1.05)";
-        button.onmouseout = () => button.style.transform = "scale(1)";
+        button.onmousedown = () => {
+            button.style.transform = "scale(0.95)";
+            button.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.5)";
+        };
+        button.onmouseup = () => {
+            button.style.transform = "scale(1.05)";
+            button.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.4)";
+        };
         button.onclick = () => handleAnswer(index);
         optionsContainer.appendChild(button);
     });
@@ -244,14 +256,30 @@ function handleAnswer(selectedOption) {
 
 function startTimer() {
     timeLeft = 60;
+    updateProgressBar();
     timerInterval = setInterval(() => {
         timeLeft--;
+        updateProgressBar();
         timer.textContent = `Время: ${timeLeft} секунд`;
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             handleAnswer(-1);
         }
     }, 1000);
+}
+
+const progressBar = document.createElement("div");
+progressBar.style.position = "absolute";
+progressBar.style.top = "0";
+progressBar.style.left = "0";
+progressBar.style.height = "5px";
+progressBar.style.backgroundColor = "#FF4747";
+progressBar.style.transition = "width 1s linear";
+quizContainer.appendChild(progressBar);
+
+function updateProgressBar() {
+    const percentage = (timeLeft / 60) * 100;
+    progressBar.style.width = `${percentage}%`;
 }
 
 function resetTimer() {
@@ -262,6 +290,24 @@ function resetTimer() {
 function showResult() {
     quizContainer.style.display = "none";
     resultContainer.style.display = "block";
+    resultContainer.style.background = "rgba(0, 0, 0, 0.7)";
+    resultContainer.style.padding = "20px";
+    resultContainer.style.borderRadius = "15px";
+    resultContainer.style.textAlign = "center";
+    resultContainer.style.color = "#FFD700";
+    resultContainer.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.5)";
+    resultContainer.style.transform = "scale(0.9)";
+    resultContainer.style.transition = "transform 0.5s ease";
+    style.innerHTML += `
+      @keyframes resultPop {
+        0% { transform: scale(0.5); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+    `;
+resultContainer.style.animation = "resultPop 0.5s ease-out";
+
+    resultContainer.style.animation = "fadeIn 1s ease";
+
     resultContainer.textContent = `Вы ответили правильно на ${score} из ${quizData.length} вопросов!`;
     detailedResults.style.display = "block";
 
