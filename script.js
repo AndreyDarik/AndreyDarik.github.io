@@ -10,9 +10,11 @@ document.body.style.background = "linear-gradient(135deg, #1e3c72, #2a5298)";
 document.body.style.fontFamily = "Arial, sans-serif";
 document.body.style.color = "#fff";
 
+
+
 // Удаляем предыдущий фон
 document.body.innerHTML = "";
-
+background.style.zIndex = "-1";
 // Создаем canvas
 const canvas = document.createElement("canvas");
 canvas.id = "particleCanvas";
@@ -91,6 +93,8 @@ animate();
 
 const style = document.createElement("style");
 style.innerHTML += `
+
+
   @keyframes fadeIn {
     from {
       opacity: 0;
