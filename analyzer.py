@@ -154,10 +154,10 @@ def plot_statistics(correct_stats, df):
 # Основной код
 def main():
     # Заголовок
-    st.title("Анализ Результатов Тестов")
+    st.title("Анализ Результатов Теста")
 
     # Загрузка файлов
-    uploaded_files = st.file_uploader("Загрузите файлы с результатами тестов", accept_multiple_files=True)
+    uploaded_files = st.file_uploader("Загрузите файлы с результатами теста", accept_multiple_files=True)
 
     if uploaded_files:
         # Парсим все файлы
@@ -177,7 +177,7 @@ def main():
 
         # Кнопка для скачивания анализа
         st.download_button(
-            label="Скачать анализ",
+            label="Скачать результат анализа",
             data=analysis,
             file_name="analysis.txt",
             mime="text/plain"
