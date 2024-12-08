@@ -359,3 +359,75 @@ resultContainer.style.animation = "resultPop 0.5s ease-out";
 }
 
 loadQuestion();
+
+
+// ====== Система викторины и уровней ======
+
+// Вопросы и уровни
+const questions = [
+    { question: "Сколько времени разлагается бумажный стаканчик?", options: ["2 года", "5 лет", "1 месяц"], correct: 2, points: 2 },
+    { question: "Какой газ в основном отвечает за парниковый эффект?", options: ["Азот", "Углекислый газ (CO₂)", "Метан"], correct: 1, points: 2 },
+    { question: "Что можно переработать в контейнер для стекла?", options: ["Пластиковую бутылку", "Стеклянную банку", "Картонную коробку"], correct: 1, points: 1 },
+    { question: "Какая страна лидирует в использовании солнечной энергии?", options: ["США", "Германия", "Австралия"], correct: 1, points: 4 },
+    { question: "Сколько литров воды уходит на хлопковую футболку?", options: ["100 литров", "2700 литров", "10 000 литров"], correct: 1, points: 5 },
+    { question: "Какой процент поверхности Земли покрывают леса?", options: ["20%", "31%", "50%"], correct: 1, points: 8 },
+    { question: "Сколько тонн пластика ежегодно попадает в океан?", options: ["2 млн тонн", "8 млн тонн", "15 млн тонн"], correct: 1, points: 10 }
+];
+
+const levels = [
+    { name: "Эко-новичок", minPoints: 0, maxPoints: 10 },
+    { name: "Защитник природы", minPoints: 11, maxPoints: 25 },
+    { name: "Эко-энтузиаст", minPoints: 26, maxPoints: 50 },
+    { name: "Спасатель Земли", minPoints: 51, maxPoints: 75 },
+    { name: "Эко-герой", minPoints: 76, maxPoints: Infinity }
+];
+
+let user = {
+    totalScore: 0,
+    currentLevel: "Эко-новичок"
+};
+
+function updateLevel() {
+    for (let level of levels) {
+        if (user.totalScore >= level.minPoints && user.totalScore <= level.maxPoints) {
+            user.currentLevel = level.name;
+            break;
+        }
+    }
+}
+
+function askQuestion(index = 0) {
+    if (index >= questions.length) {
+        alert(`Викторина завершена! Ваш уровень: ${user.currentLevel}. Общий счет: ${user.totalScore}`);
+        return;
+    }
+
+    const question = questions[index];
+    let optionsText = "";
+    question.options.forEach((option, i) => {
+        optionsText += `${i + 1}. ${option}\n`;
+    });
+
+    const answer = prompt(`${question.question}\n${optionsText}`);
+    if (parseInt(answer) - 1 === question.correct) {
+        alert("Правильно!");
+        user.totalScore += question.points;
+    } else {
+        alert("Неправильно!");
+    }
+
+    updateLevel();
+    askQuestion(index + 1);
+}
+
+// Запуск викторины
+document.addEventListener("DOMContentLoaded", () => {
+    const startQuizButton = document.createElement("button");
+    startQuizButton.textContent = "Начать викторину";
+    startQuizButton.style.padding = "10px 20px";
+    startQuizButton.style.fontSize = "16px";
+    startQuizButton.style.cursor = "pointer";
+    startQuizButton.addEventListener("click", () => askQuestion());
+
+    document.body.appendChild(startQuizButton);
+});
