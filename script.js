@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const mouseX = e.clientX - bounds.left - bounds.width / 2;
         const mouseY = e.clientY - bounds.top - bounds.height / 2;
         
-        // Значение 15 делает движение глубоким, но очень плавным
         const xPos = mouseX / 15;
         const yPos = mouseY / 15;
         
