@@ -3,25 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEDSEC | OSINT & Ethical Hacking</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
-    <!-- Правильное подключение внешнего CSS -->
+    <title>Andrey Darik | Portfolio</title>
+    <!-- Подключаем Inter для чистого и современного вида -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="container">
-        <h1 class="main-title">DEDSEC</h1>
-        <nav class="navigation">
-            <a href="https://github.com/AndreyDarik" target="_blank" rel="noopener noreferrer" class="nav-link">GITHUB</a>
-            <span class="separator">|</span>
-            <a href="mailto:andreidarik19@gmail.com" class="nav-link">EMAIL</a>
-        </nav>
+    <main class="container">
+        <div class="content">
+            <h1 class="title animate-item" style="--delay: 0.1s">Andrey Darik</h1>
+            <p class="subtitle animate-item" style="--delay: 0.2s">Software Engineer</p>
+            
+            <nav class="navigation animate-item" style="--delay: 0.3s">
+                <a href="https://github.com/AndreyDarik" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a>
+                <a href="mailto:andreidarik19@gmail.com" class="nav-link">Email</a>
+            </nav>
+        </div>
         
-        <!-- Путь к очищенной от фона картинке -->
-        <img src="./logo.png" alt="DEDSEC Logo" class="emblem" id="tilt-emblem">
-    </div>
+        <div class="image-wrapper animate-item" style="--delay: 0.4s">
+            <img src="./logo.png" alt="Andrey Darik" class="profile-img" id="smooth-image">
+        </div>
+    </main>
 
-    <!-- Правильное подключение внешнего JS -->
     <script src="./script.js" defer></script>
 </body>
 </html>
