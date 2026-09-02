@@ -1,0 +1,73 @@
+/* Базовые настройки страницы */
+body {
+    margin: 0;
+    padding: 0;
+    /* Используем моноширинный шрифт для эффекта терминала/кода */
+    font-family: 'Consolas', 'Courier New', monospace;
+    background-color: #0d1117; /* Глубокий темный цвет, как в GitHub Dark */
+    color: #c9d1d9; /* Светло-серый текст */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Настройки главного контейнера */
+.card {
+    background-color: #161b22; /* Чуть более светлый фон для карточки */
+    padding: 40px;
+    border: 1px solid #30363d; /* Тонкая строгая рамка */
+    border-radius: 8px; /* Слегка закругленные углы */
+    max-width: 400px;
+    width: 90%;
+}
+
+/* Стили для заголовков */
+.name {
+    margin: 0 0 5px 0;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: normal;
+}
+
+.title {
+    margin: 0 0 20px 0;
+    color: #58a6ff; /* Приглушенный синий акцент */
+    font-size: 16px;
+    font-weight: normal;
+}
+
+/* Стили для текста */
+.description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #8b949e;
+    margin-bottom: 30px;
+}
+
+/* Настройки блока со ссылками */
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Стили для кнопок */
+.btn {
+    text-decoration: none;
+    color: #58a6ff;
+    background-color: transparent;
+    padding: 10px 15px;
+    border: 1px solid #30363d;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Реакция на наведение мыши */
+.btn:hover {
+    background-color: #1f2428;
+    border-color: #8b949e;
+    color: #ffffff;
+}
