@@ -6,29 +6,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let bounds;
     
-    // Обновляем границы элемента при наведении
     imageWrapper.addEventListener('mouseenter', () => {
         bounds = imageWrapper.getBoundingClientRect();
     });
 
     imageWrapper.addEventListener('mousemove', (e) => {
-        // Вычисляем позицию мыши относительно центра элемента
         const mouseX = e.clientX - bounds.left - bounds.width / 2;
         const mouseY = e.clientY - bounds.top - bounds.height / 2;
         
-        // Смягчаем движение (делитель определяет силу эффекта)
-        const xPos = mouseX / 10;
-        const yPos = mouseY / 10;
+        // Значение 15 делает движение глубоким, но очень плавным
+        const xPos = mouseX / 15;
+        const yPos = mouseY / 15;
         
-        // Используем requestAnimationFrame для синхронизации с частотой кадров монитора
         requestAnimationFrame(() => {
-            image.style.transform = `scale(1.05) translate(${xPos}px, ${yPos}px)`;
+            image.style.transform = `scale(1.08) translate(${xPos}px, ${yPos}px)`;
         });
     });
 
     imageWrapper.addEventListener('mouseleave', () => {
         requestAnimationFrame(() => {
-            // Мягкий возврат в исходное положение
             image.style.transform = `scale(1) translate(0px, 0px)`;
         });
     });

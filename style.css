@@ -1,8 +1,8 @@
 :root {
-    --bg-primary: #0a0a0a;
+    --bg-primary: #050507;
     --text-primary: #ffffff;
-    --text-secondary: #888888;
-    --accent: #e5e5e5;
+    --accent: #00ffcc; /* Современный неоновый циан */
+    --accent-glow: rgba(0, 255, 204, 0.2);
     --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -17,84 +17,113 @@ body, html {
     height: 100%;
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    -webkit-font-smoothing: antialiased;
+}
+
+/* Сетка на фоне для технологичности */
+.grid-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 30px 30px;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .container {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
+    gap: 2.5rem;
     text-align: center;
     padding: 2rem;
 }
 
-/* Типографика */
-.title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.5rem;
+/* Современный акцентный заголовок */
+.main-title {
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    position: relative;
 }
 
-.subtitle {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    font-weight: 300;
-    color: var(--text-secondary);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+.main-title::after {
+    content: '.';
+    color: var(--accent);
+    text-shadow: 0 0 15px var(--accent-glow);
 }
 
-/* Навигация с плавным подчеркиванием */
+/* Увеличенная навигация */
 .navigation {
     display: flex;
-    gap: 2.5rem;
-    margin-top: 1.5rem;
+    gap: 2rem;
     justify-content: center;
 }
 
 .nav-link {
     position: relative;
-    color: var(--text-secondary);
     text-decoration: none;
-    font-size: 1rem;
+    font-family: 'Fira Code', monospace; /* Моноширинный шрифт для кнопок */
+    font-size: 1.25rem; /* Кнопки стали больше */
     font-weight: 500;
-    transition: color 0.4s var(--transition-smooth);
-    padding-bottom: 4px;
+    color: var(--accent);
+    padding: 1rem 2.5rem;
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    border-radius: 4px;
+    background: rgba(0, 255, 204, 0.03);
+    transition: all 0.4s var(--transition-smooth);
+    overflow: hidden;
 }
 
-.nav-link::after {
+.nav-link::before {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0%;
-    height: 1px;
-    background-color: var(--accent);
-    transition: width 0.4s var(--transition-smooth);
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--accent);
+    transform: translateY(100%);
+    transition: transform 0.4s var(--transition-smooth);
+    z-index: 1;
+}
+
+.link-text {
+    position: relative;
+    z-index: 2;
+    transition: color 0.4s var(--transition-smooth);
 }
 
 .nav-link:hover {
-    color: var(--text-primary);
+    box-shadow: 0 10px 20px var(--accent-glow);
+    border-color: var(--accent);
 }
 
-.nav-link:hover::after {
-    width: 100%;
+.nav-link:hover::before {
+    transform: translateY(0);
+}
+
+.nav-link:hover .link-text {
+    color: var(--bg-primary); /* Текст становится темным на светлом фоне */
+    font-weight: 700;
 }
 
 /* Изображение */
 .image-wrapper {
-    width: clamp(150px, 30vw, 220px);
-    height: clamp(150px, 30vw, 220px);
+    width: clamp(200px, 35vw, 280px);
+    height: clamp(200px, 35vw, 280px);
     border-radius: 50%;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    /* Аппаратное ускорение для гладких трансформаций */
+    background: #000;
+    border: 2px solid rgba(255,255,255,0.05);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
     transform: translateZ(0); 
     will-change: transform;
 }
@@ -103,17 +132,19 @@ body, html {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s var(--transition-smooth);
+    transition: transform 0.8s var(--transition-smooth), filter 0.8s;
+    filter: grayscale(20%) contrast(110%);
 }
 
 .image-wrapper:hover .profile-img {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    filter: grayscale(0%) contrast(120%) drop-shadow(0 0 10px var(--accent-glow));
 }
 
-/* Каскадная анимация появления */
+/* Анимация загрузки */
 .animate-item {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
     animation: fadeUp 1s var(--transition-smooth) forwards;
     animation-delay: var(--delay);
 }
