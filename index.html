@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal | INSIDIOUS</title>
-    <!-- Import pixel art font -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <meta name="description" content="DEDSEC | OSINT & Ethical Hacking Portfolio">
+    <title>DEDSEC | Andrey Darik</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="noise-overlay"></div>
     
-    <!-- Main container for the menu -->
-    <main class="game-menu">
-        <!-- Game title -->
-        <h1 class="game-title">INSIDIOUS</h1>
+    <main class="container fade-in">
+        <h1 class="main-title" data-text="DEDSEC">DEDSEC</h1>
         
-        <!-- Action buttons container replacing the old text -->
-        <div class="action-buttons">
-            <a href="https://github.com/AndreyDarik" target="_blank" class="pixel-btn">GITHUB</a>
-            <a href="mailto:andreidarik19@gmail.com" class="pixel-btn">EMAIL</a>
+        <nav class="navigation">
+            <a href="https://github.com/AndreyDarik" target="_blank" rel="noopener noreferrer" class="nav-link">GITHUB</a>
+            <span class="separator">|</span>
+            <a href="mailto:andreidarik19@gmail.com" class="nav-link">EMAIL</a>
+        </nav>
+
+        <div class="emblem-container" id="tilt-emblem">
+            <img src="logo.png" alt="DEDSEC Emblem" class="emblem">
         </div>
-        
-        <!-- Target image with hovering animation -->
-        <img src="image.jpg" alt="Insidious Logo" class="character-sprite">
     </main>
 
+    <script src="script.js"></script>
 </body>
 </html>

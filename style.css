@@ -1,6 +1,10 @@
-/* =========================================
-   1. Base setup and background
-   ========================================= */
+:root {
+    --bg-color: #0d0d0d;
+    --text-silver: linear-gradient(180deg, #ffffff 0%, #a0a0a0 45%, #666666 100%);
+    --accent-red: rgba(180, 20, 20, 0.3);
+    --font-main: 'Montserrat', sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,94 +12,115 @@
 }
 
 body {
-    background-color: #1a1a1a; /* Dark grey theme */
+    background-color: var(--bg-color);
+    color: #fff;
+    font-family: var(--font-main);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    font-family: 'Press Start 2P', cursive;
-    overflow: hidden;
+    overflow: hidden; /* Убираем скролл, визитка помещается в один экран */
 }
 
-/* =========================================
-   2. Menu container
-   ========================================= */
-.game-menu {
+/* Генерация процедурного шума (Static Noise) для хакерского стиля */
+.noise-overlay {
+    position: fixed;
+    top: -50%; left: -50%; right: -50%; bottom: -50%;
+    width: 200%; height: 200%;
+    background: transparent url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/%3E%3C/svg%3E');
+    pointer-events: none;
+    z-index: 10;
+    animation: noise-shift 8s steps(10) infinite;
+}
+
+.container {
+    position: relative;
+    z-index: 20;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    width: 100%;
+    max-width: 800px;
 }
 
-/* =========================================
-   3. Title styling (Gradient & 3D effect)
-   ========================================= */
-.game-title {
-    font-size: 70px;
-    margin-bottom: 30px;
-    background: linear-gradient(to bottom, #f3d45c 10%, #d76a29 50%, #b22222 90%);
+/* Металлический заголовок */
+.main-title {
+    font-size: clamp(3rem, 8vw, 6rem); /* Адаптивный размер */
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--text-silver);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(6px 6px 0px #5c0000);
+    background-clip: text;
+    color: transparent;
+    text-shadow: 
+        0px 4px 15px rgba(0,0,0,0.8),
+        0px 0px 20px var(--accent-red); /* Легкое свечение */
+    margin-bottom: 1.5rem;
+    user-select: none;
 }
 
-/* =========================================
-   4. Pixel Art Buttons
-   ========================================= */
-.action-buttons {
+/* Навигация */
+.navigation {
     display: flex;
-    gap: 20px; /* Space between buttons */
-    margin-bottom: 60px; /* Space below buttons */
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 3rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
 }
 
-.pixel-btn {
+.nav-link {
+    color: #888;
     text-decoration: none;
-    color: #e0e0e0;
-    border: 3px solid #e0e0e0; /* Thick pixel border */
-    padding: 12px 20px;
-    font-size: 14px;
-    transition: all 0.2s ease-in-out;
-    background-color: transparent;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    text-transform: uppercase;
 }
 
-/* Hover effect: blocky shadow and color invert */
-.pixel-btn:hover {
-    background-color: #e0e0e0;
-    color: #1a1a1a;
-    box-shadow: 4px 4px 0px #d76a29; /* Orange shadow matching the title */
-    transform: translateY(-2px); /* Slight lift effect */
+.nav-link:hover {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
-/* Active effect: when clicked */
-.pixel-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0px 0px 0px transparent;
+.separator {
+    color: #444;
 }
 
-/* =========================================
-   5. Image styling and animation setup
-   ========================================= */
-.character-sprite {
-    width: 250px; 
+/* Логотип */
+.emblem-container {
+    width: clamp(200px, 40vw, 350px);
+    border-radius: 50%;
+    transition: transform 0.1s ease-out; /* Для плавного JS-эффекта */
+}
+
+.emblem {
+    width: 100%;
     height: auto;
     border-radius: 50%;
-    animation: hoverEffect 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));
 }
 
-/* =========================================
-   6. Keyframes for floating animation
-   ========================================= */
-@keyframes hoverEffect {
-    0% {
+/* Утилита для плавного появления */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Ключевые кадры */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
         transform: translateY(0);
-        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.05));
     }
-    50% {
-        transform: translateY(-20px);
-        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.2));
-    }
-    100% {
-        transform: translateY(0);
-        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.05));
-    }
+}
+
+@keyframes noise-shift {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-5%, -5%); }
+    30% { transform: translate(5%, -10%); }
+    50% { transform: translate(-10%, 5%); }
+    70% { transform: translate(10%, 10%); }
+    90% { transform: translate(-5%, 15%); }
 }
