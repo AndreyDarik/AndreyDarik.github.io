@@ -3,135 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal | Root Access</title>
+    <title>Terminal | INSIDIOUS</title>
+    <!-- Import pixel art font -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Matrix rain canvas -->
-    <canvas id="matrix-canvas"></canvas>
     
-    <!-- CRT monitor effect -->
-    <div class="crt-overlay"></div>
-
-    <!-- Wrapper to protect the layout -->
-    <main class="content-wrapper">
-        <div class="card">
-            <!-- User info -->
-            <h1 class="name">INSIDIOUS</h1>
-            
-            <div class="typewriter-container">
-                <h2 class="title">> OSINT & Ethical Hacking</h2>
-            </div>
-            
-            <p class="description">
-                Specializing in open-source intelligence, security analysis, and data protection. 
-                I explore systems, find vulnerabilities, and write code.
-            </p>
-            
-            <!-- Social links -->
-            <div class="links">
-                <a href="https://github.com/AndreyDarik" target="_blank" class="btn">
-                    <span class="btn-text">[ GitHub ]</span>
-                </a>
-                <a href="mailto:andreidarik19@gmail.com" class="btn">
-                    <span class="btn-text">[ Email ]</span>
-                </a>
-            </div>
+    <!-- Main container for the menu -->
+    <main class="game-menu">
+        <!-- Game title -->
+        <h1 class="game-title">INSIDIOUS</h1>
+        
+        <!-- Action buttons container replacing the old text -->
+        <div class="action-buttons">
+            <a href="https://github.com/AndreyDarik" target="_blank" class="pixel-btn">GITHUB</a>
+            <a href="mailto:andreidarik19@gmail.com" class="pixel-btn">EMAIL</a>
         </div>
+        
+        <!-- Target image with hovering animation -->
+        <img src="image.jpg" alt="Insidious Logo" class="character-sprite">
     </main>
 
-    <!-- MAIN SCRIPT (JavaScript) -->
-    <script>
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const phrases = [
-            'OSINT', 'HACKING', 'INSIDIOUS', 'SECURITY', 
-            'ROOT', 'ACCESS', 'CYBER', 'EXPLOIT', 'DATA', 'LINUX'
-        ];
-
-        const fontSize = 16;
-        let columns = Math.floor(canvas.width / fontSize);
-        let drops = [];
-        
-        function initDrops() {
-            drops = [];
-            for (let x = 0; x < columns; x++) {
-                drops.push({
-                    y: Math.random() * (canvas.height / fontSize), 
-                    phrase: phrases[Math.floor(Math.random() * phrases.length)],
-                    charIndex: 0 
-                });
-            }
-        }
-        
-        initDrops();
-
-        // Timer settings for smooth animation
-        let lastTime = 0;
-        let timer = 0;
-        
-        // --- SPEED CONFIGURATION ---
-        // Higher number = slower falling words (e.g., 150 is very slow, 50 is fast)
-        const animationSpeed = 120; 
-
-        // New animation function using requestAnimationFrame
-        function animate(timeStamp) {
-            // Calculate milliseconds passed since last frame
-            const deltaTime = timeStamp - lastTime;
-            lastTime = timeStamp;
-
-            // If enough time has passed, draw the next step
-            if (timer > animationSpeed) {
-                // Fade effect
-                ctx.fillStyle = 'rgba(13, 17, 23, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                ctx.fillStyle = '#58a6ff'; 
-                ctx.font = fontSize + 'px monospace';
-
-                for (let i = 0; i < drops.length; i++) {
-                    const drop = drops[i];
-                    const text = drop.phrase.charAt(drop.charIndex);
-                    
-                    ctx.fillText(text, i * fontSize, drop.y * fontSize);
-
-                    drop.charIndex++;
-                    if (drop.charIndex >= drop.phrase.length) {
-                        drop.charIndex = 0;
-                    }
-
-                    if (drop.y * fontSize > canvas.height && Math.random() > 0.975) {
-                        drop.y = 0;
-                        drop.phrase = phrases[Math.floor(Math.random() * phrases.length)];
-                        drop.charIndex = 0;
-                    } else {
-                        drop.y++;
-                    }
-                }
-                timer = 0; // Reset timer after drawing
-            } else {
-                // Otherwise, just accumulate time
-                timer += deltaTime;
-            }
-
-            // Request the next frame from the browser
-            requestAnimationFrame(animate);
-        }
-
-        // Start animation
-        requestAnimationFrame(animate);
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            columns = Math.floor(canvas.width / fontSize);
-            initDrops();
-        });
-    </script>
 </body>
 </html>

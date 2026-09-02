@@ -1,188 +1,101 @@
 /* =========================================
-   1. Base layout
+   1. Base setup and background
    ========================================= */
-body {
+* {
     margin: 0;
     padding: 0;
-    font-family: 'Consolas', 'Courier New', monospace;
-    background-color: #0d1117;
-    color: #c9d1d9;
-    overflow: hidden; /* Hide scrollbars completely */
+    box-sizing: border-box;
 }
 
-/* =========================================
-   2. Content Wrapper (NEW - Fixes layout)
-   ========================================= */
-.content-wrapper {
-    position: relative;
-    z-index: 2; /* Put content above the background */
+body {
+    background-color: #1a1a1a; /* Dark grey theme */
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
     height: 100vh;
-}
-
-/* =========================================
-   3. Matrix background
-   ========================================= */
-#matrix-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0; /* Bottom layer */
-    pointer-events: none; /* Ignore clicks */
-    opacity: 0.2; 
-}
-
-/* =========================================
-   4. CRT overlay effect
-   ========================================= */
-.crt-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(
-        rgba(18, 16, 16, 0) 50%, 
-        rgba(0, 0, 0, 0.15) 50%
-    );
-    background-size: 100% 4px;
-    z-index: 1; /* Above matrix, below content */
-    pointer-events: none;
-    opacity: 0.6;
-    animation: crt-flicker 0.15s infinite;
-}
-
-@keyframes crt-flicker {
-    0% { opacity: 0.550; }
-    5% { opacity: 0.450; }
-    10% { opacity: 0.580; }
-    15% { opacity: 0.420; }
-    20% { opacity: 0.550; }
-    100% { opacity: 0.550; }
-}
-
-/* =========================================
-   5. Main card
-   ========================================= */
-.card {
-    background-color: #161b22;
-    padding: 40px;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 0 15px rgba(88, 166, 255, 0.05);
-}
-
-/* =========================================
-   6. Typewriter text
-   ========================================= */
-.name {
-    margin: 0 0 5px 0;
-    color: #ffffff;
-    font-size: 28px;
-    font-weight: normal;
-}
-
-.typewriter-container {
-    display: inline-block;
-    position: relative;
-}
-
-.title {
-    margin: 0 0 20px 0;
-    color: #58a6ff;
-    font-size: 16px;
-    font-weight: normal;
+    font-family: 'Press Start 2P', cursive;
     overflow: hidden;
-    white-space: nowrap;
-    border-right: 3px solid #58a6ff;
-    width: 0;
-    animation: 
-        typing 2s steps(25, end) forwards,
-        blink-cursor 0.75s step-end infinite;
-    animation-delay: 0.5s;
-}
-
-@keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
-}
-
-@keyframes blink-cursor {
-    from, to { border-color: transparent; }
-    50% { border-color: #58a6ff; }
-}
-
-.description {
-    font-size: 14px;
-    line-height: 1.6;
-    color: #8b949e;
-    margin-bottom: 30px;
 }
 
 /* =========================================
-   7. Button effects
+   2. Menu container
    ========================================= */
-.links {
+.game-menu {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-}
-
-.btn {
-    text-decoration: none;
-    color: #58a6ff;
-    background-color: transparent;
-    padding: 10px 15px;
-    border: 1px solid #30363d;
-    border-radius: 5px;
-    font-size: 14px;
+    align-items: center;
     text-align: center;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
 }
 
-.btn-text {
-    position: relative;
-    z-index: 2;
+/* =========================================
+   3. Title styling (Gradient & 3D effect)
+   ========================================= */
+.game-title {
+    font-size: 70px;
+    margin-bottom: 30px;
+    background: linear-gradient(to bottom, #f3d45c 10%, #d76a29 50%, #b22222 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(6px 6px 0px #5c0000);
 }
 
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        120deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.15), 
-        transparent
-    );
-    transition: all 0.6s ease;
-    z-index: 1;
+/* =========================================
+   4. Pixel Art Buttons
+   ========================================= */
+.action-buttons {
+    display: flex;
+    gap: 20px; /* Space between buttons */
+    margin-bottom: 60px; /* Space below buttons */
 }
 
-.btn:hover {
-    border-color: #58a6ff;
-    color: #ffffff;
-    box-shadow: 0 0 10px rgba(88, 166, 255, 0.5), inset 0 0 5px rgba(88, 166, 255, 0.2);
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+.pixel-btn {
+    text-decoration: none;
+    color: #e0e0e0;
+    border: 3px solid #e0e0e0; /* Thick pixel border */
+    padding: 12px 20px;
+    font-size: 14px;
+    transition: all 0.2s ease-in-out;
+    background-color: transparent;
 }
 
-.btn:hover::before {
-    left: 100%;
+/* Hover effect: blocky shadow and color invert */
+.pixel-btn:hover {
+    background-color: #e0e0e0;
+    color: #1a1a1a;
+    box-shadow: 4px 4px 0px #d76a29; /* Orange shadow matching the title */
+    transform: translateY(-2px); /* Slight lift effect */
 }
 
-.btn:active {
-    transform: scale(0.98);
-    box-shadow: 0 0 5px rgba(88, 166, 255, 0.7);
+/* Active effect: when clicked */
+.pixel-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0px 0px 0px transparent;
+}
+
+/* =========================================
+   5. Image styling and animation setup
+   ========================================= */
+.character-sprite {
+    width: 250px; 
+    height: auto;
+    border-radius: 50%;
+    animation: hoverEffect 4s ease-in-out infinite;
+}
+
+/* =========================================
+   6. Keyframes for floating animation
+   ========================================= */
+@keyframes hoverEffect {
+    0% {
+        transform: translateY(0);
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.05));
+    }
+    50% {
+        transform: translateY(-20px);
+        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.2));
+    }
+    100% {
+        transform: translateY(0);
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.05));
+    }
 }
