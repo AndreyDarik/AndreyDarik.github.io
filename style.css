@@ -22,80 +22,75 @@ body, html {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    /* Улучшение рендеринга шрифтов */
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Динамическая фоновая сетка с диагональным движением */
-.grid-overlay {
+/* Обертки для параллакса на заднем фоне */
+.parallax-bg {
     position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform;
+}
+
+/* Динамическая фоновая сетка */
+.grid-overlay {
+    position: absolute;
     top: -50%; left: -50%; right: -50%; bottom: -50%;
     width: 200%; height: 200%;
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
     background-size: 50px 50px;
-    z-index: 1;
-    pointer-events: none;
-    animation: gridMove 25s linear infinite;
+    animation: gridDrift 30s linear infinite;
 }
 
-@keyframes gridMove {
+@keyframes gridDrift {
     0% { transform: translate(0, 0); }
     100% { transform: translate(50px, 50px); }
 }
 
-/* Пульсирующее фоновое свечение в центре */
+/* Пульсирующее фоновое свечение */
 .ambient-glow {
     position: absolute;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(0, 255, 204, 0.07) 0%, rgba(5, 5, 7, 0) 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 255, 204, 0.08) 0%, rgba(5, 5, 7, 0) 70%);
     border-radius: 50%;
-    z-index: 1;
-    pointer-events: none;
     animation: pulseGlow 6s ease-in-out infinite alternate;
 }
 
 @keyframes pulseGlow {
-    0% { transform: scale(0.8); opacity: 0.4; }
-    100% { transform: scale(1.3); opacity: 0.9; }
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.4; }
+    100% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.9; }
 }
 
-/* Дополнительные плавающие световые сферы на фоне для движения */
+/* Плавающие световые сферы */
 .floating-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(60px);
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.15;
+    filter: blur(80px);
+    opacity: 0.12;
 }
 
 .orb-1 {
-    width: 300px;
-    height: 300px;
+    width: 350px;
+    height: 350px;
     background: var(--accent);
-    top: 10%;
+    top: 15%;
     left: 15%;
-    animation: floatOrb1 12s ease-in-out infinite alternate;
 }
 
 .orb-2 {
-    width: 350px;
-    height: 350px;
+    width: 400px;
+    height: 400px;
     background: #0066ff;
-    bottom: 10%;
+    bottom: 15%;
     right: 15%;
-    animation: floatOrb2 15s ease-in-out infinite alternate;
-}
-
-@keyframes floatOrb1 {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(80px, 50px) scale(1.2); }
-}
-
-@keyframes floatOrb2 {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(-70px, -60px) scale(1.3); }
 }
 
 .container {
@@ -116,9 +111,9 @@ body, html {
     color: var(--text-primary);
     text-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
     position: relative;
+    user-select: none;
 }
 
-/* Мигающая точка */
 .blinking-dot {
     color: var(--accent);
     text-shadow: 0 0 15px var(--accent-glow);
@@ -198,12 +193,11 @@ body, html {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s var(--transition-smooth), filter 0.8s;
+    transition: filter 0.8s;
     filter: grayscale(20%) contrast(110%);
 }
 
 .image-wrapper:hover .profile-img {
-    transform: scale(1.08);
     filter: grayscale(0%) contrast(120%) drop-shadow(0 0 15px var(--accent-glow));
 }
 

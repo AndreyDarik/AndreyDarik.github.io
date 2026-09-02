@@ -8,11 +8,22 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <!-- Фоновые динамические слои -->
-    <div class="grid-overlay"></div>
-    <div class="ambient-glow"></div>
-    <div class="floating-orb orb-1"></div>
-    <div class="floating-orb orb-2"></div>
+    <!-- Фоновые слои для интерактивного параллакса -->
+    <div class="parallax-bg" data-speed="-15">
+        <div class="grid-overlay"></div>
+    </div>
+    
+    <div class="parallax-bg" data-speed="25">
+        <div class="ambient-glow"></div>
+    </div>
+
+    <div class="parallax-bg" data-speed="45">
+        <div class="floating-orb orb-1"></div>
+    </div>
+
+    <div class="parallax-bg" data-speed="-35">
+        <div class="floating-orb orb-2"></div>
+    </div>
 
     <main class="container">
         <div class="content animate-item" style="--delay: 0.1s">
@@ -28,7 +39,7 @@
             </a>
         </nav>
         
-        <div class="image-wrapper animate-item" style="--delay: 0.3s">
+        <div class="image-wrapper animate-item" style="--delay: 0.3s" data-speed="60">
             <img src="./logo.png" alt="INSIDIOUS Logo" class="profile-img" id="smooth-image">
         </div>
     </main>
