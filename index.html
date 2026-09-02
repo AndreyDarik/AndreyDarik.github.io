@@ -3,28 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="DEDSEC | OSINT & Ethical Hacking Portfolio">
-    <title>DEDSEC | Andrey Darik</title>
-    <link rel="stylesheet" href="style.css">
+    <title>DEDSEC | OSINT & Ethical Hacking</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Правильное подключение внешнего CSS -->
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="noise-overlay"></div>
-    
-    <main class="container fade-in">
-        <h1 class="main-title" data-text="DEDSEC">DEDSEC</h1>
-        
+    <div class="container">
+        <h1 class="main-title">DEDSEC</h1>
         <nav class="navigation">
             <a href="https://github.com/AndreyDarik" target="_blank" rel="noopener noreferrer" class="nav-link">GITHUB</a>
             <span class="separator">|</span>
             <a href="mailto:andreidarik19@gmail.com" class="nav-link">EMAIL</a>
         </nav>
+        
+        <!-- Путь к очищенной от фона картинке -->
+        <img src="./logo.png" alt="DEDSEC Logo" class="emblem" id="tilt-emblem">
+    </div>
 
-        <div class="emblem-container" id="tilt-emblem">
-            <img src="logo.png" alt="DEDSEC Emblem" class="emblem">
-        </div>
-    </main>
-
-    <script src="script.js"></script>
+    <!-- Правильное подключение внешнего JS -->
+    <script src="./script.js" defer></script>
 </body>
 </html>

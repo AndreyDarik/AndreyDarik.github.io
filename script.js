@@ -1,32 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const emblemContainer = document.getElementById('tilt-emblem');
-
-    // Эффект плавного 3D-наклона эмблемы за курсором
+    const emblem = document.getElementById('tilt-emblem');
+    
     document.addEventListener('mousemove', (e) => {
-        if (!emblemContainer) return;
-
-        // Вычисляем позицию курсора относительно центра экрана
-        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-
-        // Применяем трансформацию через requestAnimationFrame для максимальной плавности
+        if (!emblem) return;
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 20;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 20;
+        
         requestAnimationFrame(() => {
-            emblemContainer.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            emblem.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
         });
     });
 
-    // Сброс позиции, если мышь уходит за пределы окна
     document.addEventListener('mouseleave', () => {
-        if (!emblemContainer) return;
+        if (!emblem) return;
         requestAnimationFrame(() => {
-            emblemContainer.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
-            emblemContainer.style.transition = 'transform 0.5s ease-out';
+            emblem.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
+            emblem.style.transition = 'transform 0.5s ease-out';
         });
     });
 
-    // Убираем transition при движении мыши для моментального отклика
     document.addEventListener('mouseenter', () => {
-        if (!emblemContainer) return;
-        emblemContainer.style.transition = 'none';
+        if (!emblem) return;
+        emblem.style.transition = 'none';
     });
 });
