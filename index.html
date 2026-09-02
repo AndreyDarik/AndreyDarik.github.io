@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +8,13 @@
 </head>
 <body>
 
-    <!-- Matrix rain canvas (Фон) -->
+    <!-- Matrix rain canvas -->
     <canvas id="matrix-canvas"></canvas>
     
-    <!-- CRT monitor effect (Мерцание) -->
+    <!-- CRT monitor effect -->
     <div class="crt-overlay"></div>
 
-    <!-- NEW: Wrapper to protect the layout (Контейнер, защищающий верстку) -->
+    <!-- Wrapper to protect the layout -->
     <main class="content-wrapper">
         <div class="card">
             <!-- User info -->
@@ -25,8 +25,8 @@
             </div>
             
             <p class="description">
-                Специализируюсь на поиске информации в открытых источниках, анализе безопасности и защите данных. 
-                Исследую системы, нахожу уязвимости, пишу код.
+                Specializing in open-source intelligence, security analysis, and data protection. 
+                I explore systems, find vulnerabilities, and write code.
             </p>
             
             <!-- Social links -->
@@ -71,21 +71,21 @@
         
         initDrops();
 
-        // Настройки таймера для плавной анимации
+        // Timer settings for smooth animation
         let lastTime = 0;
         let timer = 0;
         
-        // --- НАСТРОЙКА СКОРОСТИ ---
-        // Чем больше число, тем медленнее падают слова (например, 150 - очень медленно, 50 - быстро)
+        // --- SPEED CONFIGURATION ---
+        // Higher number = slower falling words (e.g., 150 is very slow, 50 is fast)
         const animationSpeed = 120; 
 
-        // Новая функция анимации, использующая requestAnimationFrame
+        // New animation function using requestAnimationFrame
         function animate(timeStamp) {
-            // Вычисляем, сколько миллисекунд прошло с прошлого кадра
+            // Calculate milliseconds passed since last frame
             const deltaTime = timeStamp - lastTime;
             lastTime = timeStamp;
 
-            // Если прошло достаточно времени, рисуем следующий шаг
+            // If enough time has passed, draw the next step
             if (timer > animationSpeed) {
                 // Fade effect
                 ctx.fillStyle = 'rgba(13, 17, 23, 0.05)';
@@ -113,17 +113,17 @@
                         drop.y++;
                     }
                 }
-                timer = 0; // Сбрасываем таймер после отрисовки
+                timer = 0; // Reset timer after drawing
             } else {
-                // Иначе просто накапливаем время
+                // Otherwise, just accumulate time
                 timer += deltaTime;
             }
 
-            // Запрашиваем следующий кадр у браузера
+            // Request the next frame from the browser
             requestAnimationFrame(animate);
         }
 
-        // Запускаем анимацию
+        // Start animation
         requestAnimationFrame(animate);
 
         window.addEventListener('resize', () => {
