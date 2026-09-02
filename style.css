@@ -7,16 +7,24 @@ body {
     font-family: 'Consolas', 'Courier New', monospace;
     background-color: #0d1117;
     color: #c9d1d9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
+    overflow: hidden; /* Hide scrollbars completely */
 }
 
 /* =========================================
-   2. Matrix background
+   2. Content Wrapper (NEW - Fixes layout)
+   ========================================= */
+.content-wrapper {
+    position: relative;
+    z-index: 2; /* Put content above the background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* =========================================
+   3. Matrix background
    ========================================= */
 #matrix-canvas {
     position: fixed;
@@ -26,11 +34,11 @@ body {
     height: 100vh;
     z-index: 0; /* Bottom layer */
     pointer-events: none; /* Ignore clicks */
-    opacity: 0.2; /* Subtle visibility */
+    opacity: 0.2; 
 }
 
 /* =========================================
-   3. CRT overlay effect
+   4. CRT overlay effect
    ========================================= */
 .crt-overlay {
     position: fixed;
@@ -43,7 +51,7 @@ body {
         rgba(0, 0, 0, 0.15) 50%
     );
     background-size: 100% 4px;
-    z-index: 1; /* Above matrix */
+    z-index: 1; /* Above matrix, below content */
     pointer-events: none;
     opacity: 0.6;
     animation: crt-flicker 0.15s infinite;
@@ -59,7 +67,7 @@ body {
 }
 
 /* =========================================
-   4. Main card
+   5. Main card
    ========================================= */
 .card {
     background-color: #161b22;
@@ -68,13 +76,11 @@ body {
     border-radius: 8px;
     max-width: 400px;
     width: 90%;
-    position: relative;
-    z-index: 2; /* Top layer */
     box-shadow: 0 0 15px rgba(88, 166, 255, 0.05);
 }
 
 /* =========================================
-   5. Typewriter text
+   6. Typewriter text
    ========================================= */
 .name {
     margin: 0 0 5px 0;
@@ -121,7 +127,7 @@ body {
 }
 
 /* =========================================
-   6. Button effects
+   7. Button effects
    ========================================= */
 .links {
     display: flex;
