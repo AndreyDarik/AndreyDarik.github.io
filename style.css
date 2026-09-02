@@ -1,45 +1,54 @@
 /* =========================================
-   1. Базовые настройки страницы
+   1. Base layout
    ========================================= */
 body {
     margin: 0;
     padding: 0;
     font-family: 'Consolas', 'Courier New', monospace;
-    background-color: #0d1117; /* Базовый фон */
+    background-color: #0d1117;
     color: #c9d1d9;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden; /* Скрываем полосы прокрутки, если анимация выйдет за пределы */
+    overflow: hidden;
     position: relative;
 }
 
 /* =========================================
-   2. Анимация фона (CRT Эффект)
+   2. Matrix background
    ========================================= */
-/* Поверх всей страницы накладываем полупрозрачные линии и мерцание */
+#matrix-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0; /* Bottom layer */
+    pointer-events: none; /* Ignore clicks */
+    opacity: 0.2; /* Subtle visibility */
+}
+
+/* =========================================
+   3. CRT overlay effect
+   ========================================= */
 .crt-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    /* Создаем горизонтальные полосы через градиент */
     background: linear-gradient(
         rgba(18, 16, 16, 0) 50%, 
         rgba(0, 0, 0, 0.15) 50%
     );
-    background-size: 100% 4px; /* Высота полосы */
-    z-index: 100; /* Поверх всего */
-    pointer-events: none; /* Можно кликать сквозь этот слой */
+    background-size: 100% 4px;
+    z-index: 1; /* Above matrix */
+    pointer-events: none;
     opacity: 0.6;
-    
-    /* Добавляем анимацию редкого мерцания */
     animation: crt-flicker 0.15s infinite;
 }
 
-/* Анимация мерцания: быстрое изменение прозрачности */
 @keyframes crt-flicker {
     0% { opacity: 0.550; }
     5% { opacity: 0.450; }
@@ -50,7 +59,7 @@ body {
 }
 
 /* =========================================
-   3. Главная карточка
+   4. Main card
    ========================================= */
 .card {
     background-color: #161b22;
@@ -60,13 +69,12 @@ body {
     max-width: 400px;
     width: 90%;
     position: relative;
-    z-index: 1; /* Чтобы была под CRT слоем, но над фоном */
-    /* Легкое свечение самой карточки */
+    z-index: 2; /* Top layer */
     box-shadow: 0 0 15px rgba(88, 166, 255, 0.05);
 }
 
 /* =========================================
-   4. Анимация текста (Typewriter)
+   5. Typewriter text
    ========================================= */
 .name {
     margin: 0 0 5px 0;
@@ -75,7 +83,6 @@ body {
     font-weight: normal;
 }
 
-/* Контейнер ограничивает ширину и скрывает лишнее */
 .typewriter-container {
     display: inline-block;
     position: relative;
@@ -86,27 +93,21 @@ body {
     color: #58a6ff;
     font-size: 16px;
     font-weight: normal;
-    
-    /* Эффекты для анимации */
-    overflow: hidden; /* Скрывает буквы, которые еще не "напечатаны" */
-    white-space: nowrap; /* Весь текст в одну строку */
-    border-right: 3px solid #58a6ff; /* Это наш мигающий курсор */
-    width: 0; /* Изначально текст скрыт */
-    
-    /* Запускаем две анимации: печать и мигание курсора */
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid #58a6ff;
+    width: 0;
     animation: 
-        typing 2s steps(25, end) forwards, /* steps(25) - по количеству символов */
+        typing 2s steps(25, end) forwards,
         blink-cursor 0.75s step-end infinite;
-    animation-delay: 0.5s; /* Пауза перед началом */
+    animation-delay: 0.5s;
 }
 
-/* Ключевые кадры для "печати" (увеличиваем ширину от 0 до 100%) */
 @keyframes typing {
     from { width: 0; }
     to { width: 100%; }
 }
 
-/* Ключевые кадры для курсора (меняем цвет от синего к прозрачному) */
 @keyframes blink-cursor {
     from, to { border-color: transparent; }
     50% { border-color: #58a6ff; }
@@ -120,7 +121,7 @@ body {
 }
 
 /* =========================================
-   5. Анимация кнопок (Glow & Sweep)
+   6. Button effects
    ========================================= */
 .links {
     display: flex;
@@ -138,51 +139,44 @@ body {
     font-size: 14px;
     text-align: center;
     position: relative;
-    overflow: hidden; /* Чтобы блик не выходил за пределы кнопки */
-    transition: all 0.3s ease; /* Плавность для базовых свойств */
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-/* Текст внутри кнопки поднимаем выше блика */
 .btn-text {
     position: relative;
     z-index: 2;
 }
 
-/* Создаем "блик" через псевдоэлемент ::before */
 .btn::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%; /* Изначально скрыт слева */
+    left: -100%;
     width: 100%;
     height: 100%;
-    /* Диагональный белый блик */
     background: linear-gradient(
         120deg, 
         transparent, 
         rgba(255, 255, 255, 0.15), 
         transparent
     );
-    transition: all 0.6s ease; /* Скорость пробегания блика */
+    transition: all 0.6s ease;
     z-index: 1;
 }
 
-/* --- Действия при наведении (Hover) --- */
 .btn:hover {
-    border-color: #58a6ff; /* Синяя рамка */
-    color: #ffffff; /* Белый текст */
-    /* Яркое синее неоновое свечение (box-shadow) */
+    border-color: #58a6ff;
+    color: #ffffff;
     box-shadow: 0 0 10px rgba(88, 166, 255, 0.5), inset 0 0 5px rgba(88, 166, 255, 0.2);
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-/* При наведении заставляем блик пробежать вправо */
 .btn:hover::before {
     left: 100%;
 }
 
-/* Эффект при клике (Active) */
 .btn:active {
-    transform: scale(0.98); /* Кнопка слегка прожимается */
+    transform: scale(0.98);
     box-shadow: 0 0 5px rgba(88, 166, 255, 0.7);
 }
